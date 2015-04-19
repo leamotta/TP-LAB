@@ -137,8 +137,8 @@ class CorrePocoyo{
 	 * Aca va la implementación del nodo.
 	 */
 	struct Nodo {
-		Nodo* siguiente;
-		Nodo* anterior;
+		Nodo* atras;
+		Nodo* adelante;
 		T valor;
 	};
 
@@ -174,8 +174,8 @@ template<class T>
 void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 	 Nodo* nuevo = new Nodo;
 	 nuevo->valor = corredor;
-	 nuevo->siguiente= NULL;
-	 nuevo->anterior=ultimo;
+	 nuevo->atras= NULL;
+	 nuevo->adelante=ultimo;
 
 	 if(primero==NULL)
 	 {
@@ -184,11 +184,11 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 	}
 	 else{
 		 Nodo* n = primero;
-		 while(n->siguiente!=NULL)
+		 while(n->atras!=NULL)
 		 {
-			n=n->siguiente;
+			n=n->atras;
 		 }
-		 n->siguiente=nuevo;
+		 n->atras=nuevo;
 	 }
 	 ultimo=nuevo;
 	 cantCorredores++;
@@ -197,6 +197,21 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 template<class T>
 const T& CorrePocoyo <T>:: damePrimero() const  {
 	return primero->valor;
+}
+
+template<class T>
+void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) {
+	Nodo* nuevo = new Nodo;
+	nuevo->valor = corredornuevo;
+	Nodo* n = primero;
+	while(n->valor!=corredor){
+		n= n->atras;
+	}
+	nuevo->atras=n;
+	nuevo->adelante=n->adelante;
+	if(n==primero)
+		primero=nuevo;
+	n->adelante=nuevo;
 }
 
 
