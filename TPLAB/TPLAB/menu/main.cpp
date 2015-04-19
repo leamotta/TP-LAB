@@ -13,7 +13,8 @@ int main() {
 	carrera.nuevoCorredor(1);
 	carrera.nuevoCorredor(2);
 	carrera.nuevoCorredor(3);
-	cout << "Tamanio Carrera: " << carrera.tamanio();
+	cout << "Tamanio Carrera: " << carrera.tamanio() << endl;
+	cout << "Primero: " << carrera.damePrimero();
 	cin >> pausa;
 	return 0;
 }

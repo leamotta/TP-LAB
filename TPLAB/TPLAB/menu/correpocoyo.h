@@ -143,6 +143,7 @@ class CorrePocoyo{
 	};
 
 	Nodo* primero;
+	Nodo* filmado;
 	Nodo* ultimo;
 	int cantCorredores;
 
@@ -174,8 +175,13 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 	 Nodo* nuevo = new Nodo;
 	 nuevo->valor = corredor;
 	 nuevo->siguiente= NULL;
+	 nuevo->anterior=ultimo;
+
 	 if(primero==NULL)
+	 {
 		 primero=nuevo;
+		 filmado=nuevo;
+	}
 	 else{
 		 Nodo* n = primero;
 		 while(n->siguiente!=NULL)
@@ -184,7 +190,13 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 		 }
 		 n->siguiente=nuevo;
 	 }
+	 ultimo=nuevo;
 	 cantCorredores++;
+}
+
+template<class T>
+const T& CorrePocoyo <T>:: damePrimero() const  {
+	return primero->valor;
 }
 
 
