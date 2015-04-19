@@ -138,8 +138,13 @@ class CorrePocoyo{
 	 */
 	struct Nodo {
 		Nodo* siguiente;
+		Nodo* anterior;
 		T valor;
 	};
+
+	Nodo* primero;
+	Nodo* ultimo;
+	int cantCorredores;
 
 };
 
@@ -151,16 +156,36 @@ ostream& operator<<(ostream& out, const CorrePocoyo<T>& a) {
 // Implementación a hacer por los alumnos.
 template<class T>
 int CorrePocoyo <T>:: tamanio() const {
-	return 2;
+	return cantCorredores;
 }
 
 template<class T>
 CorrePocoyo <T>:: CorrePocoyo()  {
-	
+	cantCorredores = 0;
+	primero=NULL;
 }
 
 template<class T>
 CorrePocoyo <T>:: ~CorrePocoyo()  {
 }
+
+template<class T>
+void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
+	 Nodo* nuevo = new Nodo;
+	 nuevo->valor = corredor;
+	 nuevo->siguiente= NULL;
+	 if(primero==NULL)
+		 primero=nuevo;
+	 else{
+		 Nodo* n = primero;
+		 while(n->siguiente!=NULL)
+		 {
+			n=n->siguiente;
+		 }
+		 n->siguiente=nuevo;
+	 }
+	 cantCorredores++;
+}
+
 
 #endif //CORREPOCOYO_H_

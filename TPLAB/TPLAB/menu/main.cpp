@@ -10,8 +10,10 @@ int main() {
 	int pausa;
 
 	CorrePocoyo<int> carrera;
-	carrera.tamanio();
-	cout << "Hola" << carrera.tamanio();
+	carrera.nuevoCorredor(1);
+	carrera.nuevoCorredor(2);
+	carrera.nuevoCorredor(3);
+	cout << "Tamanio Carrera: " << carrera.tamanio();
 	cin >> pausa;
 	return 0;
 }
