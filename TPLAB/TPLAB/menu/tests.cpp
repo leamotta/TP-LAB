@@ -207,7 +207,7 @@ void check_posicion() {
     ASSERT_EQ(carrera.damePosicion(8),4);
     ASSERT_EQ(carrera.dameCorredorEnPos(4),8);
 }
-
+/*
 int main() {
     RUN_TEST(check_crear_carrera_vacia);
     RUN_TEST(check_agregar_corredores);
@@ -219,5 +219,5 @@ int main() {
     RUN_TEST(check_primero);
     RUN_TEST(check_posicion);
     return 0;
-}
+}*/
 

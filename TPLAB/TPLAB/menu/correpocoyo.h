@@ -137,7 +137,8 @@ class CorrePocoyo{
 	 * Aca va la implementación del nodo.
 	 */
 	struct Nodo {
-		
+		Nodo* siguiente;
+		T valor;
 	};
 
 };
@@ -148,6 +149,18 @@ ostream& operator<<(ostream& out, const CorrePocoyo<T>& a) {
 }
 
 // Implementación a hacer por los alumnos.
+template<class T>
+int CorrePocoyo <T>:: tamanio() const {
+	return 2;
+}
 
+template<class T>
+CorrePocoyo <T>:: CorrePocoyo()  {
+	
+}
+
+template<class T>
+CorrePocoyo <T>:: ~CorrePocoyo()  {
+}
 
 #endif //CORREPOCOYO_H_
