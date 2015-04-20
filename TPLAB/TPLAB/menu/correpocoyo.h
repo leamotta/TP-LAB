@@ -214,5 +214,31 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) 
 	n->adelante=nuevo;
 }
 
+template<class T>
+void CorrePocoyo <T>:: sobrepasar(const T& corredor) {
+	Nodo* n = primero;
+	while(n->valor!=corredor){
+		n=n->atras;
+	}
+	if (n==ultimo)
+		ultimo=n->adelante;
+	if(n==primero->atras)
+		primero=n;
+	
+
+	Nodo* aSobrepasar = n->adelante;
+	if(n != primero)
+	{
+		aSobrepasar->adelante->atras=n;
+	}
+	if(n->adelante!=ultimo)
+	{
+		n->atras->adelante=aSobrepasar;
+	}
+	aSobrepasar->atras = n->atras;
+	n->adelante=aSobrepasar->adelante;
+	aSobrepasar->adelante = n;
+	n->atras=aSobrepasar;
+}
 
 #endif //CORREPOCOYO_H_
