@@ -236,24 +236,43 @@ void CorrePocoyo <T>:: sobrepasar(const T& corredor) {
 		n=n->atras;
 	}
 	if (n==ultimo)
-		ultimo=n->adelante;
+		ultimo=n->adelante; //Si el ultimo es el que sobrepasa hay un nuevo ultimo
 	if(n==primero->atras)
-		primero=n;
+		primero=n;	//Si el segundo es el que sobrepasa, queda primero
 	
 
 	Nodo* aSobrepasar = n->adelante;
-	if(n != primero)
+	if(n != primero)	//Si el segundo no es el que sobrepasa
 	{
-		aSobrepasar->adelante->atras=n;
+		aSobrepasar->adelante->atras=n; // Actualizo el que quedara adelante del que sobrepasa
 	}
-	if(n->adelante!=ultimo)
+	if(n->adelante!=ultimo) // Si el ultimo no es el que sobrepasa
 	{
-		n->atras->adelante=aSobrepasar;
+		n->atras->adelante=aSobrepasar; // Actualizo el que quedara detras del relegado
 	}
+	// Ahora implemento el sobrepaso
 	aSobrepasar->atras = n->atras;
 	n->adelante=aSobrepasar->adelante;
 	aSobrepasar->adelante = n;
 	n->atras=aSobrepasar;
 }
+
+template<class T>
+const T& CorrePocoyo <T>:: dameCorredorEnPos(int num) const {
+	int i=1;
+	Nodo* n = primero;
+	while(i!=num)
+	{
+		n=n->atras;
+		i++;
+	}
+	return n->valor;
+}
+
+template<class T>
+const T& CorrePocoyo <T>:: corredorFilmado() const {
+	return filmado->valor;
+}
+	
 
 #endif //CORREPOCOYO_H_

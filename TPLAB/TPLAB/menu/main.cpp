@@ -19,8 +19,12 @@ int main() {
 	cout << "Primero: " << carrera.damePrimero() << endl;
 	carrera.sobrepasar(2);
 	carrera.sobrepasar(2);
-	cout << "Primero: " << carrera.damePrimero();
+	cout << "Primero: " << carrera.damePrimero() << endl;
+	carrera.sobrepasar(4);
+	cout << "Primero: " << carrera.damePrimero() << endl;
+	cout << carrera.dameCorredorEnPos(1) << carrera.dameCorredorEnPos(2) << carrera.dameCorredorEnPos(3) << carrera.dameCorredorEnPos(4);
 	
+
 	cin >> pausa;
 	return 0;
 }
