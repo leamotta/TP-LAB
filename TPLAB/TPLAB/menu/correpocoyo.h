@@ -315,7 +315,7 @@ ostream& CorrePocoyo<T> :: mostrarCorrePocoyo(ostream& os) const{
 	Nodo* n = primero;
 	while(n!=NULL){
 		if(n!=primero)
-			os<<",";
+			os<<", ";
 		os<<n->valor;
 		n=n->atras;
 	}
