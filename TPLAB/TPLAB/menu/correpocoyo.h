@@ -284,6 +284,17 @@ const T& CorrePocoyo <T>:: dameCorredorEnPos(int num) const {
 }
 
 template<class T>
+int CorrePocoyo<T>::damePosicion(const T& corredor) const{
+	int i=1;
+	Nodo* n = primero;
+	while(n!=NULL && n->valor!=corredor){
+		n=n->atras;
+		i++;
+	}
+	return i;
+}
+
+template<class T>
 const T& CorrePocoyo <T>:: corredorFilmado() const {
 	return filmado->valor;
 }
