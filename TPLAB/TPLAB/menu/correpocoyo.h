@@ -324,6 +324,26 @@ ostream& CorrePocoyo<T> :: mostrarCorrePocoyo(ostream& os) const{
 }
 
 template<class T>
+bool CorrePocoyo<T>::operator==(const CorrePocoyo<T>& other) const{
+	bool esIgual= true;
+	esIgual = this->tamanio()==other.tamanio() && (this->esVacia() || (this->corredorFilmado() == other.corredorFilmado()));
+	if(esIgual && !this->esVacia()){
+		Nodo* nodoPositionMe = this->primero;
+		T otherValue = other.damePrimero();
+		while(nodoPositionMe!=NULL && esIgual){
+			esIgual = esIgual && nodoPositionMe->valor == otherValue;
+			nodoPositionMe = nodoPositionMe->atras;
+			if(nodoPositionMe!=NULL){ //Si el nodo es NULL ya no hay mas posiciones que preguntar
+				int pos = this->damePosicion(nodoPositionMe->valor);
+				otherValue = other.dameCorredorEnPos(pos);
+			}
+		}
+
+	}
+	return esIgual;
+}
+
+template<class T>
 bool CorrePocoyo<T>:: esVacia() const{
 	return primero==NULL;
 }
