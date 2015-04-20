@@ -164,6 +164,7 @@ template<class T>
 CorrePocoyo <T>:: CorrePocoyo()  {
 	cantCorredores = 0;
 	primero=NULL;
+	ultimo=NULL;
 }
 
 template<class T>
@@ -218,15 +219,28 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) 
 template<class T>
 void CorrePocoyo<T>::seCansa(const T& cansado){
 	Nodo* n = primero;
-	while(n->valor!=cansado){
-		n= n->atras;
+
+	//Busco al corredor cansado
+	while(n!=NULL && n->valor!=cansado){
+		n= n->atras; 
 	}
 
-	n->atras->adelante = n->adelante; //El de atras del cansado ahora tiene adelante a quien tenia el cansado adelante
-	n->adelante->atras = n->atras;    //El de adelante del cansado ahora tiene atras a quien tenia el cansado atras
+	//Si bien por PRE el corredor existe, para evitar problemas con operaciones de memoria, lo valido
+	if(n!=NULL){
+		if(n->atras !=NULL)
+			n->atras->adelante = n->adelante; //El de atras del cansado ahora tiene adelante a quien tenia el cansado adelante
+		else
+			ultimo = n->adelante; //Si no habia nadie atras,redefino el ultimo
 	
-	delete n; //Elimino al cansado de la carrera
-	cantCorredores--;
+		if(n->adelante!=NULL){
+			n->adelante->atras = n->atras;    //El de adelante del cansado ahora tiene atras a quien tenia el cansado atras
+		}
+		else
+			primero = n->atras; //Si no habia nadie adelante, redefino al primero
+	
+		delete n; //Libero la memoria del cansado
+		cantCorredores--; //Siempre hay un corredor menos
+	}
 }
 
 template<class T>
