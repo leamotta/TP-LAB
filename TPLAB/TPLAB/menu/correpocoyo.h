@@ -212,6 +212,21 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) 
 	if(n==primero)
 		primero=nuevo;
 	n->adelante=nuevo;
+	cantCorredores ++;
+}
+
+template<class T>
+void CorrePocoyo<T>::seCansa(const T& cansado){
+	Nodo* n = primero;
+	while(n->valor!=cansado){
+		n= n->atras;
+	}
+
+	n->atras->adelante = n->adelante; //El de atras del cansado ahora tiene adelante a quien tenia el cansado adelante
+	n->adelante->atras = n->atras;    //El de adelante del cansado ahora tiene atras a quien tenia el cansado atras
+	
+	delete n; //Elimino al cansado de la carrera
+	cantCorredores--;
 }
 
 
