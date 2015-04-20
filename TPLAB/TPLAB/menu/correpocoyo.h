@@ -298,5 +298,23 @@ void CorrePocoyo <T>:: filmarProxExitoso() {
 	 filmado=filmado->adelante;
 }
 
+template<class T>
+ostream& CorrePocoyo<T> :: mostrarCorrePocoyo(ostream& os) const{
+	os<<"[";
+	Nodo* n = primero;
+	while(n!=NULL){
+		if(n!=primero)
+			os<<",";
+		os<<n->valor;
+		n=n->atras;
+	}
+	os<<"]";
+	return os;
+}
+
+template<class T>
+bool CorrePocoyo<T>:: esVacia() const{
+	return primero==NULL;
+}
 	
 #endif //CORREPOCOYO_H_
