@@ -248,7 +248,11 @@ void CorrePocoyo<T>::seCansa(const T& cansado){
 		}
 		else
 			primero = n->atras; //Si no habia nadie adelante, redefino al primero
-	
+		
+		//Para que no haya problemas de acceso invalido a memoria, si el que se canso eera el que estaba siendo filmado, ahora se filma al primero
+		if(this->filmado == n)
+			filmado=primero;
+		
 		delete n; //Libero la memoria del cansado
 		cantCorredores--; //Siempre hay un corredor menos
 	}
@@ -312,12 +316,14 @@ const T& CorrePocoyo <T>:: corredorFilmado() const {
 
 template<class T>
 void CorrePocoyo <T>:: filmarProxPerdedor() {
-	 filmado=filmado->atras;
+	 if(filmado->atras!=NULL)//En caso de se este filmando al ultimo, lo dejo asi ya que no hay nadie atras de el para filmar
+		filmado=filmado->atras;
 }
 
 template<class T>
 void CorrePocoyo <T>:: filmarProxExitoso() {
-	 filmado=filmado->adelante;
+	if(filmado->adelante!=NULL)//En caso de se este filmando al primero, lo dejo asi ya que no hay nadie adelante de el para filmar
+		filmado=filmado->adelante;
 }
 
 template<class T>
