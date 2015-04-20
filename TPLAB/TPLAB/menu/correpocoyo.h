@@ -169,6 +169,17 @@ CorrePocoyo <T>:: CorrePocoyo()  {
 
 template<class T>
 CorrePocoyo <T>:: ~CorrePocoyo()  {
+	Nodo* actual = this->primero;
+	Nodo* aux ;
+	this->primero =NULL; //TODO. Chequear con leaker si esto hace falta.
+	this->ultimo=NULL;
+	while(actual!=NULL){
+		aux=actual; //Me guardo el nodo en el que estoy ya que debo eliminarlo
+		actual= actual->atras; //Posiciono al de atras
+		if(actual!=NULL)
+			actual->adelante = NULL; //El que estaba atras ya no tendra adelante a nadie, puesto que se borrara
+		delete aux; //Libero la memoria de ese corredor
+	}
 }
 
 template<class T>
