@@ -22,7 +22,13 @@ int main() {
 	cout << "Primero: " << carrera.damePrimero() << endl;
 	carrera.sobrepasar(4);
 	cout << "Primero: " << carrera.damePrimero() << endl;
-	cout << carrera.dameCorredorEnPos(1) << carrera.dameCorredorEnPos(2) << carrera.dameCorredorEnPos(3) << carrera.dameCorredorEnPos(4);
+	cout << carrera.dameCorredorEnPos(1) << carrera.dameCorredorEnPos(2) << carrera.dameCorredorEnPos(3) << carrera.dameCorredorEnPos(4) << endl;
+	cout << "Filmado: " << carrera.corredorFilmado() << endl;
+	carrera.filmarProxPerdedor();
+	cout << "Filmado: " << carrera.corredorFilmado() << endl;
+	carrera.filmarProxExitoso();
+	carrera.filmarProxExitoso();
+	cout << "Filmado: " << carrera.corredorFilmado();
 	
 
 	cin >> pausa;

@@ -273,6 +273,16 @@ template<class T>
 const T& CorrePocoyo <T>:: corredorFilmado() const {
 	return filmado->valor;
 }
-	
 
+template<class T>
+void CorrePocoyo <T>:: filmarProxPerdedor() {
+	 filmado=filmado->atras;
+}
+
+template<class T>
+void CorrePocoyo <T>:: filmarProxExitoso() {
+	 filmado=filmado->adelante;
+}
+
+	
 #endif //CORREPOCOYO_H_
