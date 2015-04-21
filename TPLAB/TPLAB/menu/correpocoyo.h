@@ -188,19 +188,14 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 	 nuevo->valor = corredor;
 	 nuevo->atras= NULL;
 	 nuevo->adelante=ultimo;
-
 	 if(primero==NULL)
 	 {
 		 primero=nuevo;
 		 filmado=nuevo;
-	}
-	 else{
-		 Nodo* n = primero;
-		 while(n->atras!=NULL)
-		 {
-			n=n->atras;
-		 }
-		 n->atras=nuevo;
+	 }
+	 else 
+	 {
+		 ultimo->atras=nuevo;
 	 }
 	 ultimo=nuevo;
 	 cantCorredores++;
