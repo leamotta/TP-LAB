@@ -220,6 +220,8 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) 
 	nuevo->adelante=n->adelante;
 	if(n==primero)
 		primero=nuevo;
+	else
+		nuevo->adelante->atras=nuevo;
 	n->adelante=nuevo;
 	cantCorredores ++;
 }
