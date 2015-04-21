@@ -146,6 +146,20 @@ class CorrePocoyo{
 	Nodo* filmado;
 	Nodo* ultimo;
 	int cantCorredores;
+	
+	// Dado un corredor, devuelve todo el nodo que lo contiene
+	Nodo* DameNodoDeCorredor(const T& corredor) const{
+		Nodo* actual = primero;
+		bool encontrado=false;
+		while(actual!=NULL && !encontrado){
+			if(*(actual->valor) == corredor)
+				encontrado=true;
+			else
+				actual=actual->atras;
+		}
+
+		return actual;
+	}
 
 };
 
@@ -166,6 +180,44 @@ CorrePocoyo <T>:: CorrePocoyo()  {
 	primero=NULL;
 	ultimo=NULL;
 	filmado=NULL;
+}
+
+template<class T>
+CorrePocoyo <T>::CorrePocoyo(const CorrePocoyo<T>& copia){
+	cantCorredores = 0;
+	if(copia.tamanio()==0){ //Si la copia esta vacia, construyo el equivalente a una instancia vacia
+		primero=NULL;
+		ultimo=NULL;
+		filmado=NULL;
+	}else{
+
+		int iteraciones = copia.tamanio();
+		int i = 1;
+		while(i<=iteraciones){
+			cantCorredores++;
+			Nodo* nuevo = new Nodo;
+			nuevo->valor = new T(copia.dameCorredorEnPos(i)); //Obtengo el corredor de la copia
+						
+			if(i==1){ //Si es el primer corredor que estoy insertando, entoces es el primero
+				nuevo->adelante=NULL;
+				primero = nuevo;
+			}
+			else{
+				//Si no es el primero puedo preguntar por el anterior.
+				//El anterior esta adelante,entonces tiene atras de el a este nuevo corredor
+				//Este nuevo corredor tiene adelante al que se agrego en la iteracion anterior
+				this->DameNodoDeCorredor(this->dameCorredorEnPos(i-1))->atras=nuevo; 
+				nuevo->adelante = this->DameNodoDeCorredor(this->dameCorredorEnPos(i-1));
+			}
+
+			if(i==iteraciones){//Si estoy agregando al ultimo, ya no tiene nadie atras y direcciono el puntero ultimo a él
+				nuevo->atras=NULL;
+				ultimo=nuevo;
+			}
+			i++;
+		}
+		filmado = this->DameNodoDeCorredor(copia.corredorFilmado()); //ambas instancias filman lo mismo
+	}
 }
 
 template<class T>
