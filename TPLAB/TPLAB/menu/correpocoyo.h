@@ -139,9 +139,9 @@ class CorrePocoyo{
 	struct Nodo {
 		Nodo* atras;
 		Nodo* adelante;
-		T valor;
+		T* valor;
 	};
-
+	
 	Nodo* primero;
 	Nodo* filmado;
 	Nodo* ultimo;
@@ -165,27 +165,29 @@ CorrePocoyo <T>:: CorrePocoyo()  {
 	cantCorredores = 0;
 	primero=NULL;
 	ultimo=NULL;
+	filmado=NULL;
 }
 
 template<class T>
 CorrePocoyo <T>:: ~CorrePocoyo()  {
 	Nodo* actual = this->primero;
 	Nodo* aux ;
-	this->primero =NULL; //TODO. Chequear con leaker si esto hace falta.
-	this->ultimo=NULL;
 	while(actual!=NULL){
 		aux=actual; //Me guardo el nodo en el que estoy ya que debo eliminarlo
 		actual= actual->atras; //Posiciono al de atras
 		if(actual!=NULL)
 			actual->adelante = NULL; //El que estaba atras ya no tendra adelante a nadie, puesto que se borrara
-		delete aux; //Libero la memoria de ese corredor
+		delete aux->valor; //Libero la memoria de ese corredor
+		delete aux;
 	}
+	delete actual;
+
 }
 
 template<class T>
 void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 	 Nodo* nuevo = new Nodo;
-	 nuevo->valor = corredor;
+	 nuevo->valor = new T(corredor);
 	 nuevo->atras= NULL;
 	 nuevo->adelante=ultimo;
 	 if(primero==NULL)
@@ -203,15 +205,15 @@ void CorrePocoyo <T>:: nuevoCorredor(const T& corredor)  {
 
 template<class T>
 const T& CorrePocoyo <T>:: damePrimero() const  {
-	return primero->valor;
+	return *(primero->valor);
 }
 
 template<class T>
 void CorrePocoyo <T>:: nuevoCorredor(const T& corredornuevo, const T& corredor) {
 	Nodo* nuevo = new Nodo;
-	nuevo->valor = corredornuevo;
+	nuevo->valor = new T(corredornuevo);
 	Nodo* n = primero;
-	while(n->valor!=corredor){
+	while(*(n->valor)!=corredor){
 		n= n->atras;
 	}
 	nuevo->atras=n;
@@ -227,7 +229,7 @@ void CorrePocoyo<T>::seCansa(const T& cansado){
 	Nodo* n = primero;
 
 	//Busco al corredor cansado
-	while(n!=NULL && n->valor!=cansado){
+	while(n!=NULL && *(n->valor)!=cansado){
 		n= n->atras; 
 	}
 
@@ -243,12 +245,12 @@ void CorrePocoyo<T>::seCansa(const T& cansado){
 		}
 		else
 			primero = n->atras; //Si no habia nadie adelante, redefino al primero
-		
-		//Para que no haya problemas de acceso invalido a memoria, si el que se canso eera el que estaba siendo filmado, ahora se filma al primero
+		 //Para que no haya problemas de acceso invalido a memoria, si el que se canso eera el que estaba siendo filmado, ahora se filma al primero
 		if(this->filmado == n)
 			filmado=primero;
-		
-		delete n; //Libero la memoria del cansado
+	
+		delete n->valor; //Libero la memoria del cansado
+		delete n;
 		cantCorredores--; //Siempre hay un corredor menos
 	}
 }
@@ -256,7 +258,7 @@ void CorrePocoyo<T>::seCansa(const T& cansado){
 template<class T>
 void CorrePocoyo <T>:: sobrepasar(const T& corredor) {
 	Nodo* n = primero;
-	while(n->valor!=corredor){
+	while(*(n->valor)!=corredor){
 		n=n->atras;
 	}
 	if (n==ultimo)
@@ -290,14 +292,14 @@ const T& CorrePocoyo <T>:: dameCorredorEnPos(int num) const {
 		n=n->atras;
 		i++;
 	}
-	return n->valor;
+	return *(n->valor);
 }
 
 template<class T>
 int CorrePocoyo<T>::damePosicion(const T& corredor) const{
 	int i=1;
 	Nodo* n = primero;
-	while(n!=NULL && n->valor!=corredor){
+	while(n!=NULL && *(n->valor)!=corredor){
 		n=n->atras;
 		i++;
 	}
@@ -306,7 +308,7 @@ int CorrePocoyo<T>::damePosicion(const T& corredor) const{
 
 template<class T>
 const T& CorrePocoyo <T>:: corredorFilmado() const {
-	return filmado->valor;
+	return *(filmado->valor);
 }
 
 template<class T>
@@ -327,8 +329,8 @@ ostream& CorrePocoyo<T> :: mostrarCorrePocoyo(ostream& os) const{
 	Nodo* n = primero;
 	while(n!=NULL){
 		if(n!=primero)
-			os<<", ";
-		os<<n->valor;
+			os<<",";
+		os<<*(n->valor);
 		n=n->atras;
 	}
 	os<<"]";
@@ -341,14 +343,12 @@ bool CorrePocoyo<T>::operator==(const CorrePocoyo<T>& other) const{
 	esIgual = this->tamanio()==other.tamanio() && (this->esVacia() || (this->corredorFilmado() == other.corredorFilmado()));
 	if(esIgual && !this->esVacia()){
 		Nodo* nodoPositionMe = this->primero;
-		T otherValue = other.damePrimero();
+		
+		int i = this->damePosicion(*(nodoPositionMe->valor));
 		while(nodoPositionMe!=NULL && esIgual){
-			esIgual = esIgual && nodoPositionMe->valor == otherValue;
+			esIgual = esIgual && *(nodoPositionMe->valor) == other.dameCorredorEnPos(i);
 			nodoPositionMe = nodoPositionMe->atras;
-			if(nodoPositionMe!=NULL){ //Si el nodo es NULL ya no hay mas posiciones que preguntar
-				int pos = this->damePosicion(nodoPositionMe->valor);
-				otherValue = other.dameCorredorEnPos(pos);
-			}
+			i++;
 		}
 
 	}
